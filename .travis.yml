@@ -2,14 +2,16 @@
 sudo: false
 language: python
 
-python: "3.6"
+python: "2.7"
 
 addons:
   postgresql: "9.6"
 
 env:
-  - TOXENV=py36-django20
-  - TOXENV=py36-djangomaster
+#  - TOXENV=py36-django20
+#  - TOXENV=py36-djangomaster
+  - TOXENV=py27-django19
+  - TOXENV=py27-djangomaster
   - TOXENV=checkmigrations
   - TOXENV=flake8
 
