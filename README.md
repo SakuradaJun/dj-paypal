@@ -1,4 +1,4 @@
-# dj-paypal
+# dj-paypal-py27
 
 [![Build Status](https://travis-ci.org/SakuradaJun/dj-paypal-py27.svg?branch=master)](https://travis-ci.org/SakuradaJun/dj-paypal-py27)
 
