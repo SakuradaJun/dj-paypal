@@ -4,8 +4,8 @@ dj-paypal exceptions
 
 
 class PaypalApiError(Exception):
-	pass
+    pass
 
 
 class AgreementAlreadyExecuted(Exception):
-	pass
+    pass

@@ -5,4 +5,4 @@ __all__ = ("CurrencyAmountField", "JSONField")
 
 
 class CurrencyAmountField(JSONField):
-	pass
+    pass
