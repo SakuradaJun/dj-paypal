@@ -2,10 +2,10 @@ from django.db import models
 
 from .. import enums
 from ..fields import CurrencyAmountField, JSONField
-from .base import PaypalObject
+from .base import PaypalObjectWithoutId
 
 
-class Dispute(PaypalObject):
+class Dispute(PaypalObjectWithoutId):
 	dispute_id = models.CharField(
 		max_length=128, primary_key=True, editable=False, serialize=True
 	)
@@ -33,3 +33,4 @@ class Dispute(PaypalObject):
 	@property
 	def id(self):
 		return self.dispute_id
+

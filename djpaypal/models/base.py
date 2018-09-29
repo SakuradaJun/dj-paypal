@@ -16,11 +16,19 @@ class PaypalObjectManager(models.Manager):
 		return ret
 
 
-class PaypalObject(models.Model):
+# class PaypalIdObject(models.Model):
+# 	id = models.CharField(max_length=128, primary_key=True, editable=False, serialize=True)
+# 	id_field_name = "id"
+#
+# 	class Meta:
+# 		abstract = True
+
+
+class BasePaypalObject(models.Model):
 	class Meta:
 		abstract = True
 
-	id = models.CharField(max_length=128, primary_key=True, editable=False, serialize=True)
+	# id = models.CharField(max_length=128, primary_key=True, editable=False, serialize=True)
 	livemode = models.BooleanField()
 
 	djpaypal_created = models.DateTimeField(auto_now_add=True)
@@ -28,7 +36,7 @@ class PaypalObject(models.Model):
 
 	objects = PaypalObjectManager()
 
-	id_field_name = "id"
+	# id_field_name = "id"
 	dashboard_url_template = ""
 
 	@staticmethod
@@ -116,3 +124,16 @@ class PaypalObject(models.Model):
 
 		if updated:
 			self.save()
+
+
+# class PaypalObject(PaypalIdObject, BasePaypalObject):
+class PaypalObject(BasePaypalObject):
+
+	id = models.CharField(max_length=128, primary_key=True, editable=False, serialize=True)
+	id_field_name = "id"
+
+	class Meta:
+		abstract = True
+
+
+PaypalObjectWithoutId = BasePaypalObject

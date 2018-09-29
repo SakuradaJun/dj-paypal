@@ -1,6 +1,6 @@
 # dj-paypal
 
-[![Build Status](https://api.travis-ci.org/HearthSim/dj-paypal.svg?branch=master)](https://travis-ci.org/HearthSim/dj-paypal)
+[![Build Status](https://travis-ci.org/SakuradaJun/dj-paypal-py27.svg?branch=master)](https://travis-ci.org/SakuradaJun/dj-paypal-py27)
 
 
 A Paypal integration for Django, inspired by [dj-stripe](https://github.com/dj-stripe/dj-stripe).
@@ -10,8 +10,8 @@ Currently only supports subscriptions.
 
 ## Requirements
 
-- Python 3.6+
-- Django 2.0+
+- Python 2.7
+- Django 1.9
 - Postgres 9.6+ (Non-postgres engines not supported)
 
 

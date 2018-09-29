@@ -117,7 +117,7 @@ class Sale(PaypalObject):
 	def clean_api_data(cls, data):
 		from .billing import BillingAgreement
 
-		id, cleaned_data, m2ms = super().clean_api_data(data)
+		id, cleaned_data, m2ms = PaypalObject.clean_api_data(data)
 
 		if "billing_agreement_id" in cleaned_data:
 			ba_id = cleaned_data["billing_agreement_id"]

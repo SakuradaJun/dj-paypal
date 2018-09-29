@@ -8,12 +8,8 @@ addons:
   postgresql: "9.6"
 
 env:
-#  - TOXENV=py36-django20
-#  - TOXENV=py36-djangomaster
   - TOXENV=py27-django19
-  - TOXENV=py27-djangomaster
   - TOXENV=checkmigrations
-  - TOXENV=flake8
 
 matrix:
   fast_finish: true
@@ -30,21 +26,21 @@ script:
 
 stages:
   - name: test
-  - name: deploy
-    if: tag IS present
+#  - name: deploy
+#    if: tag IS present
 
-jobs:
-  include:
-    - stage: deploy
-      install:
-        - pip install --upgrade pip setuptools wheel
-
-      script: echo Releasing $TRAVIS_TAG
-
-      deploy:
-        provider: pypi
-        user: $PYPI_USERNAME
-        password: $PYPI_PASSWORD
-        distributions: "sdist bdist_wheel"
-        on:
-          tags: true
+#jobs:
+#  include:
+#    - stage: deploy
+#      install:
+#        - pip install --upgrade pip setuptools wheel
+#
+#      script: echo Releasing $TRAVIS_TAG
+#
+#      deploy:
+#        provider: pypi
+#        user: $PYPI_USERNAME
+#        password: $PYPI_PASSWORD
+#        distributions: "sdist bdist_wheel"
+#        on:
+#          tags: true

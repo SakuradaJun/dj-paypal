@@ -9,7 +9,7 @@ from paypalrestsdk import notifications as paypal_models
 
 from ..fields import JSONField
 from ..settings import PAYPAL_WEBHOOK_ID
-from ..utils import fix_django_headers, get_version
+from ..utils import fix_django_headers, get_version, BigAutoField
 from .base import PaypalObject
 
 
@@ -68,6 +68,7 @@ WEBHOOK_SIGNALS = {
 
 
 class WebhookEvent(PaypalObject):
+	# id = models.CharField(max_length=128, primary_key=True, editable=False, serialize=True)
 	event_version = models.CharField(max_length=8, editable=False)
 	create_time = models.DateTimeField(db_index=True, editable=False)
 	event_type = models.CharField(max_length=64, editable=False)
@@ -79,8 +80,10 @@ class WebhookEvent(PaypalObject):
 
 	paypal_model = paypal_models.WebhookEvent
 
+	# id_field_name = "id"
+
 	def __str__(self):
-		return self.summary or super().__str__()
+		return self.summary or super(WebhookEvent, self).__str__()
 
 	@classmethod
 	def process(cls, data):
@@ -134,7 +137,7 @@ class WebhookEvent(PaypalObject):
 
 
 class WebhookEventTrigger(models.Model):
-	id = models.BigAutoField(primary_key=True)
+	id = BigAutoField(primary_key=True)
 	remote_ip = models.GenericIPAddressField(
 		help_text="IP address of the request client."
 	)

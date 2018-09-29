@@ -1,5 +1,6 @@
 import operator
 from collections import OrderedDict
+from six import with_metaclass
 
 from django.utils.translation import ugettext as _
 
@@ -44,7 +45,7 @@ class EnumMetaClass(type):
 		return type.__new__(self, name, bases, classdict)
 
 
-class Enum(metaclass=EnumMetaClass):
+class Enum(with_metaclass(EnumMetaClass)):
 	pass
 
 

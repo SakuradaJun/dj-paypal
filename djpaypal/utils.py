@@ -1,4 +1,21 @@
+# -*- coding: utf-8 -*-
 from decimal import Decimal
+
+from django.db.models import AutoField, BigIntegerField
+from django.utils.translation import gettext_lazy as _
+
+
+class BigAutoField(AutoField):
+    description = _("Big (8 byte) integer")
+
+    def db_type(self, connection):
+        return "bigserial"
+
+    def get_internal_type(self):
+        return "BigAutoField"
+
+    def rel_db_type(self, connection):
+        return BigIntegerField().db_type(connection=connection)
 
 
 def fix_django_headers(meta):

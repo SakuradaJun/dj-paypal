@@ -41,7 +41,7 @@ class BillingPlan(PaypalObject):
 
 	@classmethod
 	def clean_api_data(cls, data):
-		id, cleaned_data, m2ms = super().clean_api_data(data)
+		id, cleaned_data, m2ms = PaypalObject.clean_api_data(data)
 
 		pds = cleaned_data.pop("payment_definitions")
 		# Sync payment definitions but do not fetch them (we have them in full)
@@ -241,7 +241,7 @@ class BillingAgreement(PaypalObject):
 			)
 
 		self.end_of_period = self.calculate_end_of_period()
-		return super().save(**kwargs)
+		return super(BillingAgreement, self).save(**kwargs)
 
 	@property
 	def last_payment_date(self):
@@ -257,10 +257,10 @@ class BillingAgreement(PaypalObject):
 		if not last_payment_date:
 			return parse("1970-01-01T00:00:00Z")
 
-		rpd = next(filter(
+		rpd = filter(
 			lambda pd: pd["type"] == enums.PaymentDefinitionType.REGULAR,
 			self.plan["payment_definitions"]
-		))
+		).pop()
 
 		delta = get_frequency_delta(rpd["frequency"], int(rpd["frequency_interval"]))
 
@@ -281,7 +281,7 @@ class PaymentDefinition(PaypalObject):
 
 	@classmethod
 	def clean_api_data(cls, data):
-		id, cleaned_data, m2ms = super().clean_api_data(data)
+		id, cleaned_data, m2ms = PaypalObject.clean_api_data(data)
 
 		cleaned_data["frequency"] = cleaned_data["frequency"].upper()
 		if "charge_models" in cleaned_data:

@@ -1,5 +1,5 @@
 import json
-from unittest import mock
+from mock import mock
 
 import pytest
 
@@ -40,9 +40,9 @@ def get_webhook_from_fixture(event_type):
 @pytest.mark.django_db
 def test_webhook_billing_plan_created():
 	data, resource, webhook = get_webhook_from_fixture("billing.plan.created")
-	always_triggers.assert_called_once()
-	on_subscription.assert_not_called()
-	on_subscription_created.assert_not_called()
+	assert always_triggers.call_count == 1
+	assert on_subscription.call_count == 0
+	assert on_subscription_created.call_count == 0
 	assert webhook.webhook_event.id == data["id"]
 	assert webhook.webhook_event.resource["id"] == resource["id"]
 	assert models.BillingPlan.objects.get(id=resource["id"])
@@ -51,9 +51,9 @@ def test_webhook_billing_plan_created():
 @pytest.mark.django_db
 def test_webhook_billing_subscription_created_then_cancelled():
 	data, resource, webhook = get_webhook_from_fixture("billing.subscription.created")
-	always_triggers.assert_called_once()
-	on_subscription.assert_called_once()
-	on_subscription_created.assert_called_once()
+	assert always_triggers.call_count == 1
+	assert on_subscription.call_count == 1
+	assert on_subscription_created.call_count == 1
 	assert webhook.webhook_event.id == data["id"]
 	assert webhook.webhook_event.resource["id"] == resource["id"]
 	assert models.BillingAgreement.objects.get(id=resource["id"])
