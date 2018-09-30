@@ -132,6 +132,8 @@ class PaypalObject(BasePaypalObject):
     id = models.CharField(max_length=128, primary_key=True, editable=False, serialize=True)
     id_field_name = "id"
 
+    objects = PaypalObjectManager()
+
     class Meta:
         abstract = True
 

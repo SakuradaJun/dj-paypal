@@ -176,13 +176,14 @@ class WebhookEventTrigger(models.Model):
 
         headers = fix_django_headers(request.META)
         assert headers
-        try:
-            body = request.body.decode(request.encoding or "utf-8")
-        except Exception:
-            body = "(error decoding body)"
+
+        # try:
+        #     body = request.body.decode(request.encoding or "utf-8")
+        # except Exception:
+        #     body = "(error decoding body)"
 
         ip = request.META["REMOTE_ADDR"]
-        obj = cls.objects.create(headers=headers, body=body, remote_ip=ip)
+        obj = cls.objects.create(headers=headers, body=request.body, remote_ip=ip)
 
         try:
             obj.valid = obj.verify(PAYPAL_WEBHOOK_ID)

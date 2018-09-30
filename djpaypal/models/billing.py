@@ -44,6 +44,7 @@ class BillingPlan(PaypalObject):
         id, cleaned_data, m2ms = PaypalObject.clean_api_data(data)
 
         pds = cleaned_data.pop("payment_definitions")
+        [d.pop('state', None) for d in pds]
         # Sync payment definitions but do not fetch them (we have them in full)
         m2ms["payment_definitions"] = PaymentDefinition.objects.sync_data(pds, fetch=False)
 
