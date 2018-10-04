@@ -96,7 +96,7 @@ class BillingPlan(PaypalObject):
             "description": self.description,
             "plan": {"id": self.id},
             "payer": {"payment_method": payment_method},
-            "start_date": start_date.replace(microsecond=0).isoformat(),
+            "start_date": start_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
         })
 
         if override_merchant_preferences:
@@ -249,6 +249,40 @@ class BillingAgreement(PaypalObject):
         date = self.agreement_details.get("last_payment_date", "")
         if date:
             return parse(date)
+
+    @property
+    def next_billing_date(self):
+        """
+        # data in case with trial:
+        {
+            "next_billing_date": "2018-10-03T10:00:00Z",
+            "outstanding_balance": {"value": "0.00"},
+            "failed_payment_count": "0",
+            "num_cycles_completed": "0",
+            "num_cycles_remaining": "1",
+            "final_payment_due_date": "1970-01-01T00:00:00Z"
+        }
+
+        # data in case not trial:
+        {
+            "cycles_completed": "0",
+            "cycles_remaining": "0",
+            "last_payment_date": "2018-10-03T08:18:27Z",
+            "next_billing_date": "2018-10-03T10:00:00Z",
+            "final_payment_date": "1970-01-01T00:00:00Z",
+            "last_payment_amount": {"value": "19.95", "currency": "USD"},
+            "outstanding_balance": {"value": "0.00", "currency": "USD"},
+            "failed_payment_count": "0"
+        }
+        """
+
+        date = self.agreement_details.get("next_billing_date", "")
+        if date:
+            return parse(date)
+
+    @property
+    def outstanding_balance(self):
+        return self.agreement_details.get('outstanding_balance', '')
 
     def calculate_end_of_period(self):
         # The next payment date is not reliably set.
