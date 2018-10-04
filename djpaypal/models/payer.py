@@ -21,6 +21,6 @@ class Payer(models.Model):
     djpaypal_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "{first_name} {last_name} <{email}>".format(
+        return u"{first_name} {last_name} <{email}>".format(
             first_name=self.first_name, last_name=self.last_name, email=self.email
-        )
+        ).encode('utf-8')
