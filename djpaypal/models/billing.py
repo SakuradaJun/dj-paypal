@@ -27,6 +27,7 @@ def get_frequency_delta(frequency, frequency_interval):
 
 
 class BillingPlan(PaypalObject):
+    key = models.CharField(max_length=128, blank=True)
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=127)
     type = models.CharField(max_length=20, choices=enums.BillingPlanType.choices)
